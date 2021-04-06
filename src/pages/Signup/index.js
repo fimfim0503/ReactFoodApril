@@ -1,8 +1,9 @@
-import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {Header, TextInput, Gap, Button} from '../../components';
 import {useSelector, useDispatch} from 'react-redux';
-import {useForm} from '../../Utils';
+import {showMessage, useForm} from '../../Utils';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 const SignUp = ({navigation}) => {
     const [form, setForm] = useForm({
@@ -10,6 +11,8 @@ const SignUp = ({navigation}) => {
         email:'',
         password:'',
     });
+
+    const [photo, setPhoto]= useState('');
 
     const dispatch = useDispatch();
 
@@ -19,6 +22,29 @@ const SignUp = ({navigation}) => {
         navigation.navigate('SignUpAddress');
     };
 
+    const addPhoto = () => {
+        launchImageLibrary({
+            quality:0.5,
+            maxWidth:200,
+            maxHeight:200
+        }, (response)=> {
+            console.log('Response = ', response);
+            if (response.didCancel || response.error) {
+                showMessage('anda tidak memilih fhoto')
+            } else {
+                const source = {uri : response.uri};
+                const dataImage = {
+                    uri:response.uri,
+                type:response.type,
+                name:response.fileName
+                };
+
+                setPhoto(source)
+
+            }
+        });
+    };
+
     return (
         <ScrollView contentContainerStyle={{flexGrow:1}}>
 
@@ -26,11 +52,19 @@ const SignUp = ({navigation}) => {
             <Header title="Sign Up" subTitle="Register and Eat" onBack={()=>{}} />
             <View style={styles.container} >
                 <View style={styles.photo}>
-                    <View style={styles.borderFhoto} >
-                        <View style={styles.fhotoContainer}>
+                    <TouchableOpacity onPress={addPhoto} >
+                    <View style={styles.borderFhoto}  >
+                        {photo ? (  <Image source={photo} style={styles.fhotoContainer} />
+                        ) : (
+                            <View style={styles.fhotoContainer}>
                             <Text style={styles.addFhoto}>Add Fhoto</Text>
-                        </View>
+                        </View> 
+                        )}
+                        
+                        
                     </View>
+
+                    </TouchableOpacity>
                 </View>
                 <TextInput 
                 label="Full Name" 
@@ -95,7 +129,9 @@ const styles = StyleSheet.create({
         height:90,
         borderRadius:90,
         backgroundColor:'#F0F0F0',
-        padding:24
+        justifyContent:'center',
+        alignItems:'center',
+       
     },
     borderFhoto:{
         borderWidth:1,
