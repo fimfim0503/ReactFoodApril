@@ -24,13 +24,16 @@ const SingUpAddress = ({navigation}) => {
             ...registerReducer
         }
         console.log('data Register : ', data)
+        dispatch({type:'SET_LOADING', value:true});
          Axios.post('http://192.168.137.1/foodmarket3/public/api/register', data)
         .then(res => {
             console.log('data success : ', res.data)
+            dispatch({type:'SET_LOADING', value:false});
             showMessage('Register Success ', 'success')
             navigation.replace('SuccessSignUp')
         })
         .catch(err => {
+            dispatch({type:'SET_LOADING', value:false});
             showToast(err?.response?.data?.message)
         })
     }
