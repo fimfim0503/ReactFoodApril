@@ -1,8 +1,15 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
 import { ProfileDummy } from '../../../assets'
+import { getData } from '../../../Utils';
 
 const HomeProfile = () => {
+    const [photo, setPhoto] = useState(ProfileDummy);
+    useEffect(()=>{
+        getData('userProfile').then((res)=> {
+            setPhoto({uri:res.profile_photo_url});
+        })
+    }, []);
     return (
         <View>
            <View style={styles.profileContainer} >
@@ -10,7 +17,7 @@ const HomeProfile = () => {
                     <Text style={styles.Appname} >Food Market</Text>
                     <Text style={styles.dec} >Let's get some foods </Text>
                 </View>
-                <Image source={ProfileDummy} styles={styles.profile} />
+                <Image source={photo} styles={styles.profile} />
             </View>
         </View>
     )

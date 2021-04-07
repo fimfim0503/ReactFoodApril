@@ -25,7 +25,7 @@ const SingUpAddress = ({navigation}) => {
         }
         // console.log('data Register : ', data)
         dispatch(setLoading(true));
-        dispatch(signUpAction(data,photoReducer, navigation));
+        dispatch(signUpAction(data, photoReducer, navigation));
     }
 
  
