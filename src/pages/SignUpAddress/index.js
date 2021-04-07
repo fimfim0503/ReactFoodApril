@@ -3,8 +3,8 @@ import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Gap, Header, Select, TextInput } from '../../components';
-import { useForm } from '../../Utils';
-import { showMessage, hideMessage } from "react-native-flash-message";
+import { useForm, showMessage } from '../../Utils';
+
 
 const SingUpAddress = ({navigation}) => {
     const [form, setForm] = useForm({
@@ -15,7 +15,7 @@ const SingUpAddress = ({navigation}) => {
     })
 
     const dispatch=useDispatch();
-    const registerReducer=useSelector(state=>state.registerReducer)
+    const {registerReducer, photoReducer}=useSelector((state)=>state);
 
    const onSubmit = () => {
         console.log('form: ', form);
@@ -23,28 +23,41 @@ const SingUpAddress = ({navigation}) => {
             ...form,
             ...registerReducer
         }
-        console.log('data Register : ', data)
+        // console.log('data Register : ', data)
         dispatch({type:'SET_LOADING', value:true});
          Axios.post('http://192.168.137.1/foodmarket3/public/api/register', data)
         .then(res => {
-            console.log('data success : ', res.data)
+            console.log('data success : ', res.data);
+            if (photoReducer.isUploadPhoto) {
+
+                const photoForUpload = new FormData();
+                photoForUpload.append('file', photoReducer)
+                Axios.post ('http://192.168.137.1/foodmarket3/public/api/user/photo', 
+                photoForUpload, 
+                {
+                    headers:{
+                        'Authorization' : `${res.data.data.token_type} ${res.data.data.access_token}`,
+                        'Content-Type':'multipart/form-data',
+                    }
+                })
+                .then(resUpload => {
+                    console.log('succes upload : ', resUpload)
+                })
+                .catch(err => {
+                    showMessage('Upload photo tidak berhasil')
+                })
+            }
             dispatch({type:'SET_LOADING', value:false});
             showMessage('Register Success ', 'success')
             navigation.replace('SuccessSignUp')
         })
         .catch(err => {
             dispatch({type:'SET_LOADING', value:false});
-            showToast(err?.response?.data?.message)
+            showMessage(err?.response?.data?.message)
         })
     }
 
-    const showToast = (message, type) => {
-        showMessage({
-            message,
-            type: type === 'success' ? 'success' : 'danger',
-            backgroundColor: type === 'success' ? '#1abc9c' : '#d9435e'
-          });
-    }
+ 
     return (
         <ScrollView contentContainerStyle={{flexGrow:1}} >
 

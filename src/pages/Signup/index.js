@@ -40,6 +40,8 @@ const SignUp = ({navigation}) => {
                 };
 
                 setPhoto(source)
+                dispatch({type:'SET_PHOTO', value:dataImage});
+                dispatch({type:'SET_UPLOAD_STATUE', value:true});
 
             }
         });
