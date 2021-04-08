@@ -1,10 +1,10 @@
 
 import Axios from 'axios';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { Button, Gap, Header, TextInput } from '../../components';
-import { useForm } from '../../Utils';
+import { getData, useForm } from '../../Utils';
 import { signInAction } from '../../redux/action/auth';
 import { setLoading } from '../../redux/action/global';
 
@@ -17,7 +17,9 @@ const SignIn = ({navigation}) => {
         password:''
     })
 
-        const dispatch = useDispatch();
+    const dispatch = useDispatch();
+
+   
 
     const onSubmit =()=> {
         //  console.log('form :', form);

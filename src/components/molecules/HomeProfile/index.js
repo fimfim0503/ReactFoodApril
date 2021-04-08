@@ -8,7 +8,7 @@ const HomeProfile = () => {
     useEffect(()=>{
         getData('userProfile').then((res)=> {
             setPhoto({uri:res.profile_photo_url});
-        })
+        });
     }, []);
     return (
         <View>
@@ -17,7 +17,9 @@ const HomeProfile = () => {
                     <Text style={styles.Appname} >Food Market</Text>
                     <Text style={styles.dec} >Let's get some foods </Text>
                 </View>
-                <Image source={photo} styles={styles.profile} />
+                <Image 
+                    source={photo} 
+                    styles={styles.profile} />
             </View>
         </View>
     )
