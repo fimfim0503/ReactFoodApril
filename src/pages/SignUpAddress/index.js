@@ -33,7 +33,10 @@ const SingUpAddress = ({navigation}) => {
         <ScrollView contentContainerStyle={{flexGrow:1}} >
 
         <View style={styles.page}>
-            <Header title="Address" subTitle="Make Sure It's Valid" onBack={()=>{}} />
+            <Header 
+            title="Address" 
+            subTitle="Make Sure It's Valid" 
+            onBack={()=>navigation.goBack()} />
            
            
             <View style={styles.container} >

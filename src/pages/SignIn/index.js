@@ -2,8 +2,11 @@
 import Axios from 'axios';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { Button, Gap, Header, TextInput } from '../../components';
 import { useForm } from '../../Utils';
+import { signInAction } from '../../redux/action/auth';
+import { setLoading } from '../../redux/action/global';
 
 const SignIn = ({navigation}) => {
     // const [email, setEmail] =useState('');
@@ -14,19 +17,14 @@ const SignIn = ({navigation}) => {
         password:''
     })
 
+        const dispatch = useDispatch();
 
     const onSubmit =()=> {
-         console.log('form :', form);
-         
-        Axios.post('http://10.0.2.2/foodbackend/public/api/login', form)
-        .then(res=>{
-            console.log('success', res);
-        })
-        .catch(err=>{   
-            console.log('error', err)
-        })
+        //  console.log('form :', form);
+        dispatch(signInAction(form, navigation))
        
-    }
+    };
+
     return (
         <View style={styles.page} >
             <Header title="Sign in" subTitle="Find Your best evel meal" />

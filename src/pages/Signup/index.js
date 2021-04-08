@@ -51,7 +51,7 @@ const SignUp = ({navigation}) => {
         <ScrollView contentContainerStyle={{flexGrow:1}}>
 
         <View style={styles.page}>
-            <Header title="Sign Up" subTitle="Register and Eat" onBack={()=>{}} />
+            <Header title="Sign Up" subTitle="Register and Eat" onBack={()=>navigation.goBack()} />
             <View style={styles.container} >
                 <View style={styles.photo}>
                     <TouchableOpacity onPress={addPhoto} >
