@@ -3,14 +3,14 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import {FoodDummy1, IcStarOff, IcStarOn} from '../../../assets'; 
 import Rating from '../Rating';
 
-const FoodCard = ({image}) => {
+const FoodCard = ({image, name, rating}) => {
     return (
         <View style={styles.container}>
             <Image source={image} style={styles.image} />
-            <Text style={styles.text} >Cherry Healty</Text>
+            <Text style={styles.text} >{name}</Text>
             <View style={styles.ratingcontainer}>
                 <View style={styles.starcontainer}>
-                    <Rating/>
+                    <Rating number={rating}/>
                 </View>
                 <Text>4.5</Text>
             </View>

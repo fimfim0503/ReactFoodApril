@@ -1,10 +1,7 @@
 import Axios from 'axios';
 import { showMessage, storeData } from '../../Utils';
 import { setLoading } from './global';
-
-const API_HOST = {
-    url : 'http://192.168.137.1/foodmarket3/public/api'
-}
+import {API_HOST} from '../../config';
 
 export const signUpAction = (dataRegister, photoReducer, navigation) =>(dispatch) => {
     Axios.post(`${API_HOST.url}/register`, dataRegister)
